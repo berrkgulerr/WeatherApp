@@ -19,9 +19,6 @@ export default {
     }
   },
   computed: {
-    year() {
-      return this.date.getFullYear();
-    },
     period() {
       let hour = this.date.getHours();
       return (hour > 5 && hour < 18)? 'app--day': 'app--night';

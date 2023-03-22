@@ -1,42 +1,27 @@
 <template>
   <main>
-
     <form @submit.prevent="getWeather">
       <input type="text" v-model="cityInput" placeholder="Enter city name">
       <button type="submit">Get weather</button>
     </form>
 
-    <section v-if="weatherData">
-      <div class="cloudiness">
-        <img src="../assets/icons/cloud.svg" alt="cloudiness"><span class="cloudiness__value">{{ 3131 }}</span>&percnt;
-      </div>
-      <div class="wind-speed">
-        <img src="../assets/icons/wind.svg" alt="wind speed"><span class="wind__value">{{ weatherData.windSpeed }}</span>m/s
-      </div>
-      <div class="humidity">
-        <img src="../assets/icons/humidity.svg" alt="humidity"><span class="humidity__value">{{ weatherData.mainHum }}</span>&percnt;
-      </div>
-    </section>
+    <Measurements v-if="weatherData"
+        :cloudiness="3131"
+        :windSpeed= "this.weatherData.windSpeed"
+        :humidity= "this.weatherData.mainHum"
+    ></Measurements>
 
-    <section v-if="weatherData">
-      <div class="temperature__value">{{ weatherData.mainTemp }}</div>
-      <div class="temperature__right">
-        <div class="temperature__scale">
-          <p>&deg;C</p>
-        </div>
-        <div class="temperature__high">
-          <img src="../assets/icons/high.svg" alt="high temperature"><span>{{ 3131 }}</span>&deg;
-        </div>
-        <div class="temperature__low">
-          <img src="../assets/icons/low.svg" alt="low temperature"><span>{{3131}}</span>&deg;
-        </div>
-      </div>
-    </section>
+    <Temperature v-if="weatherData"
+        :value="this.weatherData.mainTemp"
+        :high="3131"
+        :low="3131"
+    ></Temperature>
 
-    <section v-if="weatherData">
-      <div class="location">{{ weatherData.name }}, {{weatherData.sysCountry}}</div>
-      <div class="weather__description">{{ weatherData.weatherDesc }}</div>
-    </section>
+    <Weather v-if="weatherData"
+        :location="this.weatherData.name +  ', ' + this.weatherData.sysCountry"
+        :description="this.weatherData.weatherDesc"
+        :icon="require('../assets/icons/weather/cloud.svg')"
+    ></Weather>
 
     <form @submit.prevent="setFrequency">
       <label for="frequency-select">Frequency:</label>
@@ -53,8 +38,18 @@
 
 <script>
 import axios from 'axios';
+import Weather from './Weather'
+import Temperature from './Temperature'
+import Measurements from './Measurements'
 
 export default {
+  name: 'WeatherApp',
+  components: {
+    Weather,
+    Temperature,
+    Measurements
+  },
+
   data() {
     return {
       city: '',
@@ -116,72 +111,33 @@ export default {
 };
 </script>
 
-
 <style scoped>
-section {
+main {
   width: 100%;
-  padding-top: 25px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-.cloudiness img {
-  width: 48px;
-  height: 48px;
-  vertical-align: middle;
-}
-.wind-speed img {
-  width: 48px;
-  height: 48px;
-  vertical-align: middle;
-}
-.humidity img {
-  width: 48px;
-  height: 48px;
-  vertical-align: middle;
-}
-
-.temperature__value {
-  font-size: 7em;
-  color: rgba(255, 255, 255, 0.75);
-}
-.temperature__right {
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-.temperature__scale {
-  padding-top: 5px;
-  font-size: 2em;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.75);
-}
-.temperature__high {
-  padding-top: 5px;
-}
-.temperature__high img {
-  vertical-align: middle;
-}
-.temperature__low img {
-  vertical-align: middle;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
-.location {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-.weather__description {
 
-  text-transform: lowercase;
-  margin-left: 10%;
-  margin-right: 10%;
-  text-align: center;
+.app--day {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../assets/images/morning.jpg");
 }
-.weather__description:first-letter {
-  text-transform: uppercase;
+.app--night {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../assets/images/night.jpg");
 }
-.weather__icon {
-  width: 12em;
-  padding-bottom: 9em;
+
+@media screen and (min-width: 450px) {
+  main {
+    width: 330px;
+    height: 600px;
+    border-radius: 5px
+  }
 }
 </style>
