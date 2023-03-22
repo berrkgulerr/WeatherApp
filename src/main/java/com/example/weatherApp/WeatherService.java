@@ -29,7 +29,7 @@ public class WeatherService {
             city = defaultCityName;
         }
         try {
-            String url = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", city, apiKey);
+            String url = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric", city, apiKey);
             String response = restTemplate.getForObject(url, String.class);
 
             JsonNode root = mapper.readTree(response);
