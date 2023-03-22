@@ -43,12 +43,9 @@ public class WeatherService {
             int main_feels = main.get("feels_like").asInt();
             int main_tempMin = main.get("temp_min").asInt();
             int main_tempMax = main.get("temp_max").asInt();
-            int main_pressure = main.get("pressure").asInt();
             int main_humidity = main.get("humidity").asInt();
 
-            JsonNode wind = root.get("wind");
-            int wind_speed = wind.get("speed").asInt();
-            int wind_deg = wind.get("deg").asInt();
+            int wind_speed = root.get("wind").get("speed").asInt();
 
             int clouds_all = root.get("clouds").get("all").asInt();
 
@@ -57,14 +54,13 @@ public class WeatherService {
             double sys_sunrise = sys.get("sunrise").asDouble();
             double sys_sunset = sys.get("sunset").asDouble();
 
-            int timezone = root.get("timezone").asInt();
+            int timeStamp = root.get("dt").asInt();
             String name = root.get("name").asText();
 
-            return new Weather(weather_desc, weather_icon, main_temp,
-                    main_feels, main_tempMin, main_tempMax,
-                    main_pressure, main_humidity, wind_speed,
-                    wind_deg, clouds_all, sys_country, sys_sunrise,
-                    sys_sunset, timezone, name);
+            return new Weather(weather_desc, weather_icon,
+                    main_temp, main_feels, main_tempMin, main_tempMax,
+                    main_humidity, wind_speed, clouds_all, sys_country,
+                    sys_sunrise, sys_sunset, timeStamp, name);
 
         } catch (Exception e) {
             return null;
