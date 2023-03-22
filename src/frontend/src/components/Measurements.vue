@@ -10,6 +10,11 @@
       <img src="../assets/icons/humidity.svg" alt="humidity"><span class="humidity__value">{{ humidity }}</span>&percnt;
     </div>
   </section>
+  <section>
+    <div class="feelsLike">
+      <img src="../assets/icons/thermometer.svg" alt="feels like"><span class="feelslike__value">Feels Like {{ feelsLike }}&deg; C</span>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -25,6 +30,10 @@ export default {
       required: true
     },
     humidity: {
+      type: Number,
+      required: true
+    },
+    feelsLike: {
       type: Number,
       required: true
     }
@@ -53,6 +62,11 @@ section {
 .humidity img {
   width: 48px;
   height: 48px;
+  vertical-align: middle;
+}
+.feelsLike img {
+  width: 32px;
+  height: 32px;
   vertical-align: middle;
 }
 </style>

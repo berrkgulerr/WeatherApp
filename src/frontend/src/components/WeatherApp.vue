@@ -1,37 +1,42 @@
 <template>
   <main>
-    <form @submit.prevent="getWeather">
-      <input type="text" v-model="cityInput" placeholder="Enter city name">
-      <button type="submit">Get weather</button>
-    </form>
+    <div class="search-box" @keydown.enter.prevent="getWeather">
+      <input class="search-bar" type="text" v-model="cityInput" placeholder="Enter city name and press Enter">
+    </div>
 
     <Measurements v-if="weatherData"
-        :cloudiness="3131"
+        :cloudiness="this.weatherData.cloudsAll"
         :windSpeed= "this.weatherData.windSpeed"
         :humidity= "this.weatherData.mainHum"
+        :feelsLike= "this.weatherData.mainFeels"
     ></Measurements>
 
     <Temperature v-if="weatherData"
         :value="this.weatherData.mainTemp"
-        :high="3131"
-        :low="3131"
+        :high="this.weatherData.mainTempMax"
+        :low="this.weatherData.mainTempMin"
     ></Temperature>
 
     <Weather v-if="weatherData"
         :location="this.weatherData.name +  ', ' + this.weatherData.sysCountry"
         :description="this.weatherData.weatherDesc"
-        :icon="require('../assets/icons/weather/cloud.svg')"
+        :icon="require('../assets/icons/weather/animated/weather.svg')"
     ></Weather>
 
-    <form @submit.prevent="setFrequency">
-      <label for="frequency-select">Frequency:</label>
-      <select id="frequency-select" v-model="frequency">
-        <option value="1000">1 second</option>
-        <option value="60000">1 minute</option>
-        <option value="3600000">1 hour</option>
-      </select>
-      <button type="submit">Update frequency</button>
-    </form>
+    <div class="container d-flex justify-content-center"  >
+      <form class="row g-2 align-items-center">
+        <div class="col-auto">
+          <label for="frequency-select" class="form-label">Refresh Rate:</label>
+        </div>
+        <div class="col-auto">
+          <select id="frequency-select" v-model="frequency" class="form-select" @change="setFrequency">
+            <option value="1000">1 second</option>
+            <option value="60000">1 minute</option>
+            <option value="3600000">1 hour</option>
+          </select>
+        </div>
+      </form>
+    </div>
 
   </main>
 </template>
@@ -41,7 +46,8 @@ import axios from 'axios';
 import Weather from './Weather'
 import Temperature from './Temperature'
 import Measurements from './Measurements'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 export default {
   name: 'WeatherApp',
   components: {
@@ -55,7 +61,7 @@ export default {
       city: '',
       weatherData: null,
       intervalId: null,
-      frequency: '1000', // default frequency is 1 second
+      frequency: '60000', // default frequency is 1 second
       cityInput: ''
     };
   },
@@ -112,6 +118,32 @@ export default {
 </script>
 
 <style scoped>
+.search-box {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.search-box .search-bar {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  
+  color: #313131;
+  font-size: 20px;
+  appearance: none;
+  border:none;
+  outline: none;
+  background: none;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0px 16px 0px 16px;
+  transition: 0.4s;
+}
+.search-box .search-bar:focus {
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 16px 0px 16px 0px;
+}
+
 main {
   width: 100%;
   height: 100%;
