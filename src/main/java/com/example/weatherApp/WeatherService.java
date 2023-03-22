@@ -13,7 +13,7 @@ public class WeatherService {
     private String apiKey;
 
     @Value("${weather.city}")
-    private String city;
+    private String defaultCityName;
 
     private final RestTemplate restTemplate;
 
@@ -24,7 +24,10 @@ public class WeatherService {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public Weather getWeather() {
+    public Weather getWeather(String city) {
+        if (city == null) {
+            city = defaultCityName;
+        }
         try {
             String url = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", city, apiKey);
             String response = restTemplate.getForObject(url, String.class);
