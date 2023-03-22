@@ -81,7 +81,6 @@ export default {
         });
   },
   beforeUnmount() {
-    console.log("AAAAAAAAAAAAAAAAAAAAAA");
     clearInterval(this.intervalId);
   }
 };
