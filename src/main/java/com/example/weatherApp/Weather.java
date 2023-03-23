@@ -16,8 +16,8 @@ public class Weather {
     private int windSpeed;
     private int cloudsAll;
     private String sysCountry;
-    private double sysSunrise;
-    private double sysSunset;
+    private int sysSunrise;
+    private int sysSunset;
     private int timeStamp;
     private String name;
 }

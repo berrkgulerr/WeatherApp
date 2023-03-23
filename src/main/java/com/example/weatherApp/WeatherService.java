@@ -51,8 +51,8 @@ public class WeatherService {
 
             JsonNode sys = root.get("sys");
             String sys_country = sys.get("country").asText();
-            double sys_sunrise = sys.get("sunrise").asDouble();
-            double sys_sunset = sys.get("sunset").asDouble();
+            int sys_sunrise = sys.get("sunrise").asInt();
+            int sys_sunset = sys.get("sunset").asInt();
 
             int timeStamp = root.get("dt").asInt();
             String name = root.get("name").asText();

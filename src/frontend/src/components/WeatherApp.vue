@@ -2,10 +2,10 @@
   <main>
     <div v-if="errorMessage" class="error-message">
     {{ errorMessage }}
-  </div>
+    </div>
 
     <div class="search-box" @keydown.enter.prevent="getWeather">
-      <input class="search-bar" type="text" v-model="cityInput" placeholder="Enter city name and press Enter">
+      <input class="search-bar" type="text" v-model="cityInput" placeholder="Search city...">
     </div>
 
     <Measurements v-if="weatherData"
@@ -181,6 +181,7 @@ export default {
   right: 1em;
   padding: 1em;
   background-color: red;
+  border-radius: 16px 16px 16px 16px;
   color: white;
   z-index: 999;
 }
