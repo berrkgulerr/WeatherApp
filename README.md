@@ -13,7 +13,7 @@
 
 4) Go to frontend folder
 
-`cd frontend`
+`cd src/frontend`
 
 5) Install node modules
 
