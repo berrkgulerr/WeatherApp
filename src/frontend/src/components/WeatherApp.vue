@@ -1,5 +1,9 @@
 <template>
   <main>
+    <div v-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
     <div class="search-box" @keydown.enter.prevent="getWeather">
       <input class="search-bar" type="text" v-model="cityInput" placeholder="Enter city name and press Enter">
     </div>
@@ -65,19 +69,28 @@ export default {
       city: '',
       weatherData: null,
       intervalId: null,
-      frequency: '60000', // default frequency is 1 second
-      cityInput: ''
+      frequency: '60000', // default frequency is 1 minute
+      cityInput: '',
+      errorMessage: null
     };
   },
 
   methods: {
     getWeather(event) {
       event.preventDefault(); // prevent default form submission behavior
-      this.city = this.cityInput;
-      axios.get('/weather?city=' + this.city)
+      axios.get('/weather?city=' + this.cityInput)
           .then(response => {
             console.log(response.data)
-            this.weatherData = response.data;
+            if(response.data){
+              this.city = this.cityInput;
+              this.weatherData = response.data;
+            } 
+            else {
+              this.errorMessage = 'Please Give Valid City Name.'
+              setTimeout(() => {
+                this.errorMessage = null
+              }, 5000)
+            }
           })
           .catch(error => {
             console.error(error);
@@ -90,7 +103,13 @@ export default {
         axios.get('/weather?city=' + this.city)
             .then(response => {
               console.log(response.data)
-              this.weatherData = response.data;
+              if(response.data) this.weatherData = response.data;
+              else {
+                this.errorMessage = 'An error occurred. Please try again later.'
+                setTimeout(() => {
+                  this.errorMessage = null
+                }, 5000)
+              }
             })
             .catch(error => {
               console.error(error);
@@ -126,8 +145,8 @@ export default {
         case '11d': return require('../assets/icons/weather/animated/thunder.svg')
         case '11n': return require('../assets/icons/weather/animated/thunder.svg')
 
-        case '13d': return require('../assets/icons/weather/animated/cloudy.svg')
-        case '13n': return require('../assets/icons/weather/animated/cloudy.svg')
+        case '13d': return require('../assets/icons/weather/animated/snowy-5.svg')
+        case '13n': return require('../assets/icons/weather/animated/snowy-5.svg')
 
         case '50d': return require('../assets/icons/weather/animated/mist.svg')
         case '50n': return require('../assets/icons/weather/animated/mist.svg')
@@ -156,6 +175,15 @@ export default {
 </script>
 
 <style scoped>
+.error-message {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  padding: 1em;
+  background-color: red;
+  color: white;
+  z-index: 999;
+}
 .search-box {
   width: 100%;
   margin-bottom: 30px;
