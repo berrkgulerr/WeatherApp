@@ -20,9 +20,13 @@
     <Weather v-if="weatherData"
         :location="this.weatherData.name +  ', ' + this.weatherData.sysCountry"
         :description="this.weatherData.weatherDesc"
-        :icon="require('../assets/icons/weather/animated/weather.svg')"
+        :icon="getIcon()"
     ></Weather>
 
+    <div v-if="weatherData">
+      <p>Timestamp: {{this.weatherData.timeStamp}}</p>
+    </div>
+    
     <div class="container d-flex justify-content-center"  >
       <form class="row g-2 align-items-center">
         <div class="col-auto">
@@ -97,23 +101,57 @@ export default {
     setFrequency() {
       clearInterval(this.intervalId);
       this.startPeriodicUpdate();
+    },
+
+    getIcon(){
+      switch(this.weatherData.weatherIcon){
+        case '01d': return require('../assets/icons/weather/animated/day.svg')
+        case '01n': return require('../assets/icons/weather/animated/night.svg')
+
+        case '02d': return require('../assets/icons/weather/animated/cloudy-day-3.svg')
+        case '02n': return require('../assets/icons/weather/animated/cloudy-night-3.svg')
+
+        case '03d': return require('../assets/icons/weather/animated/cloudy.svg')
+        case '03n': return require('../assets/icons/weather/animated/cloudy.svg')
+
+        case '04d': return require('../assets/icons/weather/animated/cloudy.svg')
+        case '04n': return require('../assets/icons/weather/animated/cloudy.svg')
+
+        case '09d': return require('../assets/icons/weather/animated/rainy-7.svg')
+        case '09n': return require('../assets/icons/weather/animated/rainy-7.svg')
+
+        case '10d': return require('../assets/icons/weather/animated/rainy-1.svg')
+        case '10n': return require('../assets/icons/weather/animated/rainy-4.svg')
+
+        case '11d': return require('../assets/icons/weather/animated/thunder.svg')
+        case '11n': return require('../assets/icons/weather/animated/thunder.svg')
+
+        case '13d': return require('../assets/icons/weather/animated/cloudy.svg')
+        case '13n': return require('../assets/icons/weather/animated/cloudy.svg')
+
+        case '50d': return require('../assets/icons/weather/animated/mist.svg')
+        case '50n': return require('../assets/icons/weather/animated/mist.svg')
+
+        default: return require('../assets/icons/weather/animated/weather.svg')
+      }
     }
   },
-  mounted() {
-    axios.get('/weather')
-        .then(response => {
-          console.log(response.data);
-          this.weatherData = response.data;
-          this.city = this.weatherData.name;
-          this.setFrequency();
-        })
-        .catch(error => {
-          console.error(error);
-        });
-  },
-  beforeUnmount() {
-    clearInterval(this.intervalId);
-  }
+    mounted() {
+      axios.get('/weather')
+          .then(response => {
+            console.log(response.data);
+            this.weatherData = response.data;
+            this.city = this.weatherData.name;
+            this.setFrequency();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    },
+    beforeUnmount() {
+      clearInterval(this.intervalId);
+    }
+    
 };
 </script>
 
