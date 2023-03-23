@@ -1,9 +1,9 @@
 <template>
-  <main>
-    <div v-if="errorMessage" class="error-message">
+  <div v-if="errorMessage" class="error-message">
     {{ errorMessage }}
-    </div>
+  </div>
 
+  <main>
     <div class="search-box" @keydown.enter.prevent="getWeather">
       <input class="search-bar" type="text" v-model="cityInput" placeholder="Search city...">
     </div>
@@ -105,7 +105,7 @@ export default {
               console.log(response.data)
               if(response.data) this.weatherData = response.data;
               else {
-                this.errorMessage = 'An error occurred. Please try again later.'
+                this.errorMessage = 'Please Give Valid City Name.'
                 setTimeout(() => {
                   this.errorMessage = null
                 }, 5000)
@@ -221,22 +221,15 @@ main {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-}
-
-
-.app--day {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../assets/images/morning.jpg");
-}
-.app--night {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../assets/images/night.jpg");
+  box-shadow: 0 25px 50px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
 @media screen and (min-width: 450px) {
   main {
-    width: 330px;
-    height: 600px;
-    border-radius: 5px
+    width: 380px;
+    height: 690px;
+    border-radius: 15px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../assets/images/morning.jpg");
   }
 }
 </style>
